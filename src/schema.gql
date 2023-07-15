@@ -1,0 +1,57 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserCountAggregate {
+  id: Int!
+  name: Int!
+  image: Int!
+  phone: Int!
+  role: Int!
+  _all: Int!
+}
+
+type UserMaxAggregate {
+  id: String
+  name: String
+  image: String
+  phone: String
+  role: Role
+}
+
+enum Role {
+  USER
+  GUEST
+  ADMIN
+}
+
+type UserMinAggregate {
+  id: String
+  name: String
+  image: String
+  phone: String
+  role: Role
+}
+
+type User {
+  id: ID!
+  name: String!
+  image: String!
+  phone: String!
+  role: Role!
+}
+
+type Query {
+  user(id: ID!): User!
+}
+
+type Mutation {
+  createUser(createUserDto: CreateUserDto!): User!
+}
+
+input CreateUserDto {
+  name: String!
+  image: String!
+  phone: String!
+  role: Role!
+}

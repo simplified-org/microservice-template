@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - ${PWD}:/app
+    ports:
+      - ${DOCKER_APP_PUBLISHING_PORT}:${APP_PORT}
+    depends_on:
+      - db
+    networks:
+      - meetings-app-network
+    env_file:
+      - .env
+
+  db:
+    image: postgres:14.3-alpine
+    volumes:
+      - db-data:${DOCKER_DB_DATA_PATH}
+    networks:
+      - meetings-app-network
+    ports:
+      - ${DOCKER_DB_PUBLISHING_PORT}:${DB_PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: ${DOCKER_DB_DATA_PATH}
+
+volumes:
+  db-data:
+
+networks:
+  meetings-app-network:
+    external: true
