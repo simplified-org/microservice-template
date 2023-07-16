@@ -1,3 +1,25 @@
+Microservice template
+
+1. Update example.env (
+      change variables
+      remove comments
+   )
+
+2. Update docker compose (
+      app.container_name
+      postgres.container_name
+   )
+
+3. Update package.json (
+      name
+   )
+
+4. Remove unnecessary from schema.prisma
+
+5. Update README.md (
+      remove this instructions
+   )
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

@@ -4,22 +4,24 @@ services:
   app:
     build:
       context: .
-      dockerfile: dockerfile.dev
+      dockerfile: docker/dev.dockerfile
+    container_name: example-service-app
     volumes:
       - ${PWD}:/app
     ports:
       - ${DOCKER_APP_PUBLISHING_PORT}:${APP_PORT}
     depends_on:
-      - db
+      - postgres
     networks:
       - meetings-app-network
     env_file:
       - .env
 
-  db:
+  postgres:
     image: postgres:14.3-alpine
+    container_name: example-service-db
     volumes:
-      - db-data:${DOCKER_DB_DATA_PATH}
+      - .data/postgres:/var/lib/postgresql/data
     networks:
       - meetings-app-network
     ports:
@@ -28,10 +30,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-      PGDATA: ${DOCKER_DB_DATA_PATH}
-
-volumes:
-  db-data:
+      PGDATA: /var/lib/postgresql/data
 
 networks:
   meetings-app-network:

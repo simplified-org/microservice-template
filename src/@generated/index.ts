@@ -1,19 +1,11 @@
 import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
+import { ArgsType } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import { Int } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { registerEnumType } from '@nestjs/graphql';
-import { ArgsType } from '@nestjs/graphql';
-import { Type } from 'class-transformer';
 import { ID } from '@nestjs/graphql';
-
-export enum UserScalarFieldEnum {
-    id = "id",
-    name = "name",
-    image = "image",
-    phone = "phone",
-    role = "role"
-}
 
 export enum TransactionIsolationLevel {
     ReadUncommitted = "ReadUncommitted",
@@ -27,22 +19,464 @@ export enum SortOrder {
     desc = "desc"
 }
 
-export enum Role {
-    USER = "USER",
-    GUEST = "GUEST",
-    ADMIN = "ADMIN"
-}
-
 export enum QueryMode {
     'default' = "default",
     insensitive = "insensitive"
 }
 
+export enum Color {
+    WHITE = "WHITE",
+    BLACK = "BLACK",
+    GREY = "GREY"
+}
+
+export enum CatScalarFieldEnum {
+    id = "id",
+    name = "name",
+    color = "color"
+}
+
+registerEnumType(CatScalarFieldEnum, { name: 'CatScalarFieldEnum', description: undefined })
+registerEnumType(Color, { name: 'Color', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
-registerEnumType(Role, { name: 'Role', description: undefined })
 registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
 registerEnumType(TransactionIsolationLevel, { name: 'TransactionIsolationLevel', description: undefined })
-registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined })
+
+@ObjectType()
+export class AggregateCat {
+    @Field(() => CatCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof CatCountAggregate>;
+    @Field(() => CatMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof CatMinAggregate>;
+    @Field(() => CatMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof CatMaxAggregate>;
+}
+
+@ArgsType()
+export class CatAggregateArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+    @Field(() => [CatOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CatOrderByWithRelationInput>;
+    @Field(() => CatWhereUniqueInput, {nullable:true})
+    cursor?: InstanceType<typeof CatWhereUniqueInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => CatCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CatCountAggregateInput>;
+    @Field(() => CatMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CatMinAggregateInput>;
+    @Field(() => CatMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CatMaxAggregateInput>;
+}
+
+@InputType()
+export class CatCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    color?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class CatCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    name!: number;
+    @Field(() => Int, {nullable:false})
+    color!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class CatCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    color?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CatCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Color, {nullable:false})
+    color!: keyof typeof Color;
+}
+
+@InputType()
+export class CatCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Color, {nullable:false})
+    color!: keyof typeof Color;
+}
+
+@ArgsType()
+export class CatGroupByArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+    @Field(() => [CatOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<CatOrderByWithAggregationInput>;
+    @Field(() => [CatScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof CatScalarFieldEnum>;
+    @Field(() => CatScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof CatScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => CatCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CatCountAggregateInput>;
+    @Field(() => CatMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CatMinAggregateInput>;
+    @Field(() => CatMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CatMaxAggregateInput>;
+}
+
+@ObjectType()
+export class CatGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Color, {nullable:false})
+    color!: keyof typeof Color;
+    @Field(() => CatCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof CatCountAggregate>;
+    @Field(() => CatMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof CatMinAggregate>;
+    @Field(() => CatMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof CatMaxAggregate>;
+}
+
+@InputType()
+export class CatMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    color?: true;
+}
+
+@ObjectType()
+export class CatMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => Color, {nullable:true})
+    color?: keyof typeof Color;
+}
+
+@InputType()
+export class CatMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    color?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CatMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    color?: true;
+}
+
+@ObjectType()
+export class CatMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => Color, {nullable:true})
+    color?: keyof typeof Color;
+}
+
+@InputType()
+export class CatMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    color?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CatOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    color?: keyof typeof SortOrder;
+    @Field(() => CatCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CatCountOrderByAggregateInput>;
+    @Field(() => CatMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CatMaxOrderByAggregateInput>;
+    @Field(() => CatMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CatMinOrderByAggregateInput>;
+}
+
+@InputType()
+export class CatOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    color?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CatScalarWhereWithAggregatesInput {
+    @Field(() => [CatScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<CatScalarWhereWithAggregatesInput>;
+    @Field(() => [CatScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<CatScalarWhereWithAggregatesInput>;
+    @Field(() => [CatScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<CatScalarWhereWithAggregatesInput>;
+    @Field(() => UuidWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof UuidWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    name?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => EnumColorWithAggregatesFilter, {nullable:true})
+    color?: InstanceType<typeof EnumColorWithAggregatesFilter>;
+}
+
+@InputType()
+export class CatUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Color, {nullable:false})
+    color!: keyof typeof Color;
+}
+
+@InputType()
+export class CatUncheckedUpdateManyInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => EnumColorFieldUpdateOperationsInput, {nullable:true})
+    color?: InstanceType<typeof EnumColorFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class CatUncheckedUpdateInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => EnumColorFieldUpdateOperationsInput, {nullable:true})
+    color?: InstanceType<typeof EnumColorFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class CatUpdateManyMutationInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => EnumColorFieldUpdateOperationsInput, {nullable:true})
+    color?: InstanceType<typeof EnumColorFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class CatUpdateInput {
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
+    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
+    @Field(() => EnumColorFieldUpdateOperationsInput, {nullable:true})
+    color?: InstanceType<typeof EnumColorFieldUpdateOperationsInput>;
+}
+
+@InputType()
+export class CatWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+}
+
+@InputType()
+export class CatWhereInput {
+    @Field(() => [CatWhereInput], {nullable:true})
+    AND?: Array<CatWhereInput>;
+    @Field(() => [CatWhereInput], {nullable:true})
+    OR?: Array<CatWhereInput>;
+    @Field(() => [CatWhereInput], {nullable:true})
+    NOT?: Array<CatWhereInput>;
+    @Field(() => UuidFilter, {nullable:true})
+    id?: InstanceType<typeof UuidFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => EnumColorFilter, {nullable:true})
+    color?: InstanceType<typeof EnumColorFilter>;
+}
+
+@ObjectType()
+export class Cat {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => Color, {nullable:false})
+    color!: keyof typeof Color;
+}
+
+@ArgsType()
+export class CreateManyCatArgs {
+    @Field(() => [CatCreateManyInput], {nullable:false})
+    @Type(() => CatCreateManyInput)
+    data!: Array<CatCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneCatArgs {
+    @Field(() => CatCreateInput, {nullable:false})
+    @Type(() => CatCreateInput)
+    data!: InstanceType<typeof CatCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyCatArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneCatArgs {
+    @Field(() => CatWhereUniqueInput, {nullable:false})
+    @Type(() => CatWhereUniqueInput)
+    where!: InstanceType<typeof CatWhereUniqueInput>;
+}
+
+@ArgsType()
+export class FindFirstCatOrThrowArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+    @Field(() => [CatOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CatOrderByWithRelationInput>;
+    @Field(() => CatWhereUniqueInput, {nullable:true})
+    cursor?: InstanceType<typeof CatWhereUniqueInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CatScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CatScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstCatArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+    @Field(() => [CatOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CatOrderByWithRelationInput>;
+    @Field(() => CatWhereUniqueInput, {nullable:true})
+    cursor?: InstanceType<typeof CatWhereUniqueInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CatScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CatScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyCatArgs {
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+    @Field(() => [CatOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CatOrderByWithRelationInput>;
+    @Field(() => CatWhereUniqueInput, {nullable:true})
+    cursor?: InstanceType<typeof CatWhereUniqueInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CatScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CatScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueCatOrThrowArgs {
+    @Field(() => CatWhereUniqueInput, {nullable:false})
+    @Type(() => CatWhereUniqueInput)
+    where!: InstanceType<typeof CatWhereUniqueInput>;
+}
+
+@ArgsType()
+export class FindUniqueCatArgs {
+    @Field(() => CatWhereUniqueInput, {nullable:false})
+    @Type(() => CatWhereUniqueInput)
+    where!: InstanceType<typeof CatWhereUniqueInput>;
+}
+
+@ArgsType()
+export class UpdateManyCatArgs {
+    @Field(() => CatUpdateManyMutationInput, {nullable:false})
+    @Type(() => CatUpdateManyMutationInput)
+    data!: InstanceType<typeof CatUpdateManyMutationInput>;
+    @Field(() => CatWhereInput, {nullable:true})
+    @Type(() => CatWhereInput)
+    where?: InstanceType<typeof CatWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneCatArgs {
+    @Field(() => CatUpdateInput, {nullable:false})
+    @Type(() => CatUpdateInput)
+    data!: InstanceType<typeof CatUpdateInput>;
+    @Field(() => CatWhereUniqueInput, {nullable:false})
+    @Type(() => CatWhereUniqueInput)
+    where!: InstanceType<typeof CatWhereUniqueInput>;
+}
+
+@ArgsType()
+export class UpsertOneCatArgs {
+    @Field(() => CatWhereUniqueInput, {nullable:false})
+    @Type(() => CatWhereUniqueInput)
+    where!: InstanceType<typeof CatWhereUniqueInput>;
+    @Field(() => CatCreateInput, {nullable:false})
+    @Type(() => CatCreateInput)
+    create!: InstanceType<typeof CatCreateInput>;
+    @Field(() => CatUpdateInput, {nullable:false})
+    @Type(() => CatUpdateInput)
+    update!: InstanceType<typeof CatUpdateInput>;
+}
 
 @ObjectType()
 export class AffectedRows {
@@ -51,69 +485,69 @@ export class AffectedRows {
 }
 
 @InputType()
-export class EnumRoleFieldUpdateOperationsInput {
-    @Field(() => Role, {nullable:true})
-    set?: keyof typeof Role;
+export class EnumColorFieldUpdateOperationsInput {
+    @Field(() => Color, {nullable:true})
+    set?: keyof typeof Color;
 }
 
 @InputType()
-export class EnumRoleFilter {
-    @Field(() => Role, {nullable:true})
-    equals?: keyof typeof Role;
-    @Field(() => [Role], {nullable:true})
-    in?: Array<keyof typeof Role>;
-    @Field(() => [Role], {nullable:true})
-    notIn?: Array<keyof typeof Role>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    not?: InstanceType<typeof NestedEnumRoleFilter>;
+export class EnumColorFilter {
+    @Field(() => Color, {nullable:true})
+    equals?: keyof typeof Color;
+    @Field(() => [Color], {nullable:true})
+    in?: Array<keyof typeof Color>;
+    @Field(() => [Color], {nullable:true})
+    notIn?: Array<keyof typeof Color>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumColorFilter>;
 }
 
 @InputType()
-export class EnumRoleWithAggregatesFilter {
-    @Field(() => Role, {nullable:true})
-    equals?: keyof typeof Role;
-    @Field(() => [Role], {nullable:true})
-    in?: Array<keyof typeof Role>;
-    @Field(() => [Role], {nullable:true})
-    notIn?: Array<keyof typeof Role>;
-    @Field(() => NestedEnumRoleWithAggregatesFilter, {nullable:true})
-    not?: InstanceType<typeof NestedEnumRoleWithAggregatesFilter>;
+export class EnumColorWithAggregatesFilter {
+    @Field(() => Color, {nullable:true})
+    equals?: keyof typeof Color;
+    @Field(() => [Color], {nullable:true})
+    in?: Array<keyof typeof Color>;
+    @Field(() => [Color], {nullable:true})
+    notIn?: Array<keyof typeof Color>;
+    @Field(() => NestedEnumColorWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumColorWithAggregatesFilter>;
     @Field(() => NestedIntFilter, {nullable:true})
     _count?: InstanceType<typeof NestedIntFilter>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    _min?: InstanceType<typeof NestedEnumRoleFilter>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    _max?: InstanceType<typeof NestedEnumRoleFilter>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedEnumColorFilter>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedEnumColorFilter>;
 }
 
 @InputType()
-export class NestedEnumRoleFilter {
-    @Field(() => Role, {nullable:true})
-    equals?: keyof typeof Role;
-    @Field(() => [Role], {nullable:true})
-    in?: Array<keyof typeof Role>;
-    @Field(() => [Role], {nullable:true})
-    notIn?: Array<keyof typeof Role>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    not?: InstanceType<typeof NestedEnumRoleFilter>;
+export class NestedEnumColorFilter {
+    @Field(() => Color, {nullable:true})
+    equals?: keyof typeof Color;
+    @Field(() => [Color], {nullable:true})
+    in?: Array<keyof typeof Color>;
+    @Field(() => [Color], {nullable:true})
+    notIn?: Array<keyof typeof Color>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumColorFilter>;
 }
 
 @InputType()
-export class NestedEnumRoleWithAggregatesFilter {
-    @Field(() => Role, {nullable:true})
-    equals?: keyof typeof Role;
-    @Field(() => [Role], {nullable:true})
-    in?: Array<keyof typeof Role>;
-    @Field(() => [Role], {nullable:true})
-    notIn?: Array<keyof typeof Role>;
-    @Field(() => NestedEnumRoleWithAggregatesFilter, {nullable:true})
-    not?: InstanceType<typeof NestedEnumRoleWithAggregatesFilter>;
+export class NestedEnumColorWithAggregatesFilter {
+    @Field(() => Color, {nullable:true})
+    equals?: keyof typeof Color;
+    @Field(() => [Color], {nullable:true})
+    in?: Array<keyof typeof Color>;
+    @Field(() => [Color], {nullable:true})
+    notIn?: Array<keyof typeof Color>;
+    @Field(() => NestedEnumColorWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof NestedEnumColorWithAggregatesFilter>;
     @Field(() => NestedIntFilter, {nullable:true})
     _count?: InstanceType<typeof NestedIntFilter>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    _min?: InstanceType<typeof NestedEnumRoleFilter>;
-    @Field(() => NestedEnumRoleFilter, {nullable:true})
-    _max?: InstanceType<typeof NestedEnumRoleFilter>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    _min?: InstanceType<typeof NestedEnumColorFilter>;
+    @Field(() => NestedEnumColorFilter, {nullable:true})
+    _max?: InstanceType<typeof NestedEnumColorFilter>;
 }
 
 @InputType()
@@ -356,504 +790,4 @@ export class UuidWithAggregatesFilter {
     _min?: InstanceType<typeof NestedStringFilter>;
     @Field(() => NestedStringFilter, {nullable:true})
     _max?: InstanceType<typeof NestedStringFilter>;
-}
-
-@ObjectType()
-export class AggregateUser {
-    @Field(() => UserCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof UserCountAggregate>;
-    @Field(() => UserMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof UserMinAggregate>;
-    @Field(() => UserMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof UserMaxAggregate>;
-}
-
-@ArgsType()
-export class CreateManyUserArgs {
-    @Field(() => [UserCreateManyInput], {nullable:false})
-    @Type(() => UserCreateManyInput)
-    data!: Array<UserCreateManyInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@ArgsType()
-export class CreateOneUserArgs {
-    @Field(() => UserCreateInput, {nullable:false})
-    @Type(() => UserCreateInput)
-    data!: InstanceType<typeof UserCreateInput>;
-}
-
-@ArgsType()
-export class DeleteManyUserArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-}
-
-@ArgsType()
-export class DeleteOneUserArgs {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: InstanceType<typeof UserWhereUniqueInput>;
-}
-
-@ArgsType()
-export class FindFirstUserArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => [UserOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<UserOrderByWithRelationInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    cursor?: InstanceType<typeof UserWhereUniqueInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [UserScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserScalarFieldEnum>;
-}
-
-@ArgsType()
-export class FindManyUserArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => [UserOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<UserOrderByWithRelationInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    cursor?: InstanceType<typeof UserWhereUniqueInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [UserScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserScalarFieldEnum>;
-}
-
-@ArgsType()
-export class FindUniqueUserArgs {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: InstanceType<typeof UserWhereUniqueInput>;
-}
-
-@ArgsType()
-export class UpdateManyUserArgs {
-    @Field(() => UserUpdateManyMutationInput, {nullable:false})
-    @Type(() => UserUpdateManyMutationInput)
-    data!: InstanceType<typeof UserUpdateManyMutationInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-}
-
-@ArgsType()
-export class UpdateOneUserArgs {
-    @Field(() => UserUpdateInput, {nullable:false})
-    @Type(() => UserUpdateInput)
-    data!: InstanceType<typeof UserUpdateInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: InstanceType<typeof UserWhereUniqueInput>;
-}
-
-@ArgsType()
-export class UpsertOneUserArgs {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: InstanceType<typeof UserWhereUniqueInput>;
-    @Field(() => UserCreateInput, {nullable:false})
-    @Type(() => UserCreateInput)
-    create!: InstanceType<typeof UserCreateInput>;
-    @Field(() => UserUpdateInput, {nullable:false})
-    @Type(() => UserUpdateInput)
-    update!: InstanceType<typeof UserUpdateInput>;
-}
-
-@ArgsType()
-export class UserAggregateArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => [UserOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<UserOrderByWithRelationInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    cursor?: InstanceType<typeof UserWhereUniqueInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => UserCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof UserCountAggregateInput>;
-    @Field(() => UserMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof UserMinAggregateInput>;
-    @Field(() => UserMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof UserMaxAggregateInput>;
-}
-
-@InputType()
-export class UserCountAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    name?: true;
-    @Field(() => Boolean, {nullable:true})
-    image?: true;
-    @Field(() => Boolean, {nullable:true})
-    phone?: true;
-    @Field(() => Boolean, {nullable:true})
-    role?: true;
-    @Field(() => Boolean, {nullable:true})
-    _all?: true;
-}
-
-@ObjectType()
-export class UserCountAggregate {
-    @Field(() => Int, {nullable:false})
-    id!: number;
-    @Field(() => Int, {nullable:false})
-    name!: number;
-    @Field(() => Int, {nullable:false})
-    image!: number;
-    @Field(() => Int, {nullable:false})
-    phone!: number;
-    @Field(() => Int, {nullable:false})
-    role!: number;
-    @Field(() => Int, {nullable:false})
-    _all!: number;
-}
-
-@InputType()
-export class UserCountOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    phone?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    role?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class UserCreateManyInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    name!: string;
-    @Field(() => String, {nullable:false})
-    image!: string;
-    @Field(() => String, {nullable:false})
-    phone!: string;
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
-}
-
-@InputType()
-export class UserCreateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    name!: string;
-    @Field(() => String, {nullable:false})
-    image!: string;
-    @Field(() => String, {nullable:false})
-    phone!: string;
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
-}
-
-@ArgsType()
-export class UserGroupByArgs {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => [UserOrderByWithAggregationInput], {nullable:true})
-    orderBy?: Array<UserOrderByWithAggregationInput>;
-    @Field(() => [UserScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof UserScalarFieldEnum>;
-    @Field(() => UserScalarWhereWithAggregatesInput, {nullable:true})
-    having?: InstanceType<typeof UserScalarWhereWithAggregatesInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => UserCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof UserCountAggregateInput>;
-    @Field(() => UserMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof UserMinAggregateInput>;
-    @Field(() => UserMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof UserMaxAggregateInput>;
-}
-
-@ObjectType()
-export class UserGroupBy {
-    @Field(() => String, {nullable:false})
-    id!: string;
-    @Field(() => String, {nullable:false})
-    name!: string;
-    @Field(() => String, {nullable:false})
-    image!: string;
-    @Field(() => String, {nullable:false})
-    phone!: string;
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
-    @Field(() => UserCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof UserCountAggregate>;
-    @Field(() => UserMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof UserMinAggregate>;
-    @Field(() => UserMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof UserMaxAggregate>;
-}
-
-@InputType()
-export class UserMaxAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    name?: true;
-    @Field(() => Boolean, {nullable:true})
-    image?: true;
-    @Field(() => Boolean, {nullable:true})
-    phone?: true;
-    @Field(() => Boolean, {nullable:true})
-    role?: true;
-}
-
-@ObjectType()
-export class UserMaxAggregate {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    name?: string;
-    @Field(() => String, {nullable:true})
-    image?: string;
-    @Field(() => String, {nullable:true})
-    phone?: string;
-    @Field(() => Role, {nullable:true})
-    role?: keyof typeof Role;
-}
-
-@InputType()
-export class UserMaxOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    phone?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    role?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class UserMinAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    name?: true;
-    @Field(() => Boolean, {nullable:true})
-    image?: true;
-    @Field(() => Boolean, {nullable:true})
-    phone?: true;
-    @Field(() => Boolean, {nullable:true})
-    role?: true;
-}
-
-@ObjectType()
-export class UserMinAggregate {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    name?: string;
-    @Field(() => String, {nullable:true})
-    image?: string;
-    @Field(() => String, {nullable:true})
-    phone?: string;
-    @Field(() => Role, {nullable:true})
-    role?: keyof typeof Role;
-}
-
-@InputType()
-export class UserMinOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    phone?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    role?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class UserOrderByWithAggregationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    phone?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    role?: keyof typeof SortOrder;
-    @Field(() => UserCountOrderByAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof UserCountOrderByAggregateInput>;
-    @Field(() => UserMaxOrderByAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof UserMaxOrderByAggregateInput>;
-    @Field(() => UserMinOrderByAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof UserMinOrderByAggregateInput>;
-}
-
-@InputType()
-export class UserOrderByWithRelationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    phone?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    role?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class UserScalarWhereWithAggregatesInput {
-    @Field(() => [UserScalarWhereWithAggregatesInput], {nullable:true})
-    AND?: Array<UserScalarWhereWithAggregatesInput>;
-    @Field(() => [UserScalarWhereWithAggregatesInput], {nullable:true})
-    OR?: Array<UserScalarWhereWithAggregatesInput>;
-    @Field(() => [UserScalarWhereWithAggregatesInput], {nullable:true})
-    NOT?: Array<UserScalarWhereWithAggregatesInput>;
-    @Field(() => UuidWithAggregatesFilter, {nullable:true})
-    id?: InstanceType<typeof UuidWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    name?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    image?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    phone?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => EnumRoleWithAggregatesFilter, {nullable:true})
-    role?: InstanceType<typeof EnumRoleWithAggregatesFilter>;
-}
-
-@InputType()
-export class UserUncheckedCreateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    name!: string;
-    @Field(() => String, {nullable:false})
-    image!: string;
-    @Field(() => String, {nullable:false})
-    phone!: string;
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
-}
-
-@InputType()
-export class UserUncheckedUpdateManyInput {
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    image?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    phone?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => EnumRoleFieldUpdateOperationsInput, {nullable:true})
-    role?: InstanceType<typeof EnumRoleFieldUpdateOperationsInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateInput {
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    image?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    phone?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => EnumRoleFieldUpdateOperationsInput, {nullable:true})
-    role?: InstanceType<typeof EnumRoleFieldUpdateOperationsInput>;
-}
-
-@InputType()
-export class UserUpdateManyMutationInput {
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    image?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    phone?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => EnumRoleFieldUpdateOperationsInput, {nullable:true})
-    role?: InstanceType<typeof EnumRoleFieldUpdateOperationsInput>;
-}
-
-@InputType()
-export class UserUpdateInput {
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    id?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    name?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    image?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    phone?: InstanceType<typeof StringFieldUpdateOperationsInput>;
-    @Field(() => EnumRoleFieldUpdateOperationsInput, {nullable:true})
-    role?: InstanceType<typeof EnumRoleFieldUpdateOperationsInput>;
-}
-
-@InputType()
-export class UserWhereUniqueInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-}
-
-@InputType()
-export class UserWhereInput {
-    @Field(() => [UserWhereInput], {nullable:true})
-    AND?: Array<UserWhereInput>;
-    @Field(() => [UserWhereInput], {nullable:true})
-    OR?: Array<UserWhereInput>;
-    @Field(() => [UserWhereInput], {nullable:true})
-    NOT?: Array<UserWhereInput>;
-    @Field(() => UuidFilter, {nullable:true})
-    id?: InstanceType<typeof UuidFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    name?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    image?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    phone?: InstanceType<typeof StringFilter>;
-    @Field(() => EnumRoleFilter, {nullable:true})
-    role?: InstanceType<typeof EnumRoleFilter>;
-}
-
-@ObjectType()
-export class User {
-    @Field(() => ID, {nullable:false})
-    id!: string;
-    @Field(() => String, {nullable:false})
-    name!: string;
-    @Field(() => String, {nullable:false})
-    image!: string;
-    @Field(() => String, {nullable:false})
-    phone!: string;
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
 }
