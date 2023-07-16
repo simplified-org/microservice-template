@@ -1,24 +1,35 @@
 Microservice template
 
 1. Update example.env (
-      change variables
-      remove comments
+    change variables
+    remove comments
    )
 
 2. Update docker compose (
-      app.container_name
-      postgres.container_name
+    app.container_name
+    postgres.container_name
    )
 
 3. Update package.json (
-      name
+    name
    )
 
 4. Remove unnecessary from schema.prisma
 
 5. Update README.md (
-      remove this instructions
+    remove this instructions
    )
+
+6*. Add microserice to gateway (
+  example.env
+  app.ts
+)
+
+7*. Add microservice to scripts (
+  init.sh
+  run-microservices.sh
+  stop-microservices.sh
+)
 
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
